@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#9E0E1C"/>
+<title>Salesforce · MuleSoft · Agentforce | Redpill Linpro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+/* ────────── Tokens ────────── */
+:root{
+  --red:#E8172F; --red-dk:#C01125;
+  --teal:#0F5F5A; --teal-md:#157A74; --teal-lt:#00BFB3;
+  --navy:#1A2434; --navy-lt:#243040;
+  --yellow:#F4A818; --yellow-lt:#FFC64A;
+  --sand:#F5F3EF; --white:#FFFFFF;
+  --gray:#6B7280; --gray-lt:#9CA3AF;
+  --border:#E5E7EB;
+  --fn-hd:'Plus Jakarta Sans',sans-serif; --fn-bd:'DM Sans',sans-serif;
+  --tr:.22s cubic-bezier(.4,0,.2,1);
+  --nav-h:60px; --tab-h:64px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --max-w:1200px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--fn-bd);background:var(--white);color:var(--navy);-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+
+/* ────────── TOP NAV ────────── */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  height:var(--nav-h);background:#B8101F;
+  display:flex;align-items:center;padding:0 2rem;gap:1.5rem;
+  box-shadow:0 1px 0 rgba(0,0,0,.15),0 4px 24px rgba(0,0,0,.35);
+}
+.top-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none;flex-shrink:0}
+.logo-img{height:30px;width:auto;display:block;filter:brightness(0) invert(1)}
+.logo-sub{color:rgba(255,255,255,.75);font-family:var(--fn-bd);font-weight:500;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;border-left:1px solid rgba(255,255,255,.25);padding-left:.7rem;margin-left:.1rem}
+.top-links{display:flex;gap:.15rem;flex:1}
+.top-links a{color:rgba(255,255,255,.75);text-decoration:none;font-family:var(--fn-bd);font-weight:500;font-size:.85rem;padding:.42rem .85rem;border-radius:7px;transition:color var(--tr),background var(--tr);white-space:nowrap;cursor:pointer}
+.top-links a:hover{color:#fff;background:rgba(0,0,0,.15)}
+.top-links a.active{color:#fff;background:rgba(0,0,0,.22)}
+.top-cta{background:#fff;color:#B8101F;font-family:var(--fn-bd);font-weight:700;font-size:.82rem;padding:.48rem 1.2rem;border-radius:7px;text-decoration:none;flex-shrink:0;transition:background var(--tr),color var(--tr);-webkit-tap-highlight-color:transparent}
+.top-cta:hover{background:rgba(255,255,255,.88)}
+
+/* ────────── BOTTOM TABS ────────── */
+.tab-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;
+  height:calc(var(--tab-h) + var(--safe-b));background:#B8101F;
+  border-top:1px solid rgba(0,0,0,.15);box-shadow:0 -4px 24px rgba(0,0,0,.35);
+  padding-bottom:var(--safe-b)}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.2rem;cursor:pointer;border:none;background:transparent;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  padding:.5rem .15rem;position:relative;transition:background var(--tr)}
+.tab-item:active{background:rgba(255,255,255,.05)}
+.tab-icon{font-size:1.2rem;line-height:1;filter:grayscale(1) brightness(.65);transition:filter var(--tr),transform var(--tr)}
+.tab-label{font-family:var(--fn-bd);font-size:.57rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.55);transition:color var(--tr)}
+.tab-item.active .tab-icon{filter:brightness(1);transform:scale(1.12)}
+.tab-item.active .tab-label{color:#fff}
+.tab-item.active::after{content:'';position:absolute;top:0;left:18%;right:18%;height:2px;background:#fff;border-radius:0 0 3px 3px}
+
+/* ────────── PAGE SHELL ────────── */
+.page-wrap{padding-top:var(--nav-h);min-height:100dvh}
+.section{display:none}.section.active{display:block}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 2rem}
+
+/* ────────── HERO ────────── */
+.hero{background:#9E0E1C;padding:4.5rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-photo{position:absolute;inset:0;background:url('https://www.redpill-linpro.com/sites/default/files/2021-10/Redpill-linpro-RunningTrack_smaller.jpg') center/cover;opacity:.1;pointer-events:none}
+.hero-mesh{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 80% at 80% 20%,rgba(232,23,47,.5) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 60% at 5% 85%,rgba(80,0,10,.6) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:48px 48px}
+.hero-inner{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.45rem;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  border-radius:20px;padding:.3rem .9rem;font-size:.7rem;font-weight:600;
+  color:#fff;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--yellow-lt);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--fn-hd);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.1;color:#fff;margin-bottom:1.1rem}
+.hero h1 em{font-style:normal;color:#fff}
+.hero-desc{color:rgba(255,255,255,.72);font-size:1rem;line-height:1.75;margin-bottom:2rem}
+.hero-btns{display:flex;gap:.85rem;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:.45rem;background:var(--navy);color:#fff;font-family:var(--fn-bd);font-weight:700;font-size:.88rem;padding:.8rem 1.6rem;border-radius:8px;border:none;cursor:pointer;text-decoration:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background var(--tr),transform .1s,box-shadow var(--tr)}
+.btn-primary:hover{background:var(--navy-lt);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.btn-primary:active{transform:scale(.98)}
+.btn-white{display:inline-flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.14);color:#fff;font-family:var(--fn-bd);font-weight:500;font-size:.88rem;padding:.8rem 1.6rem;border-radius:8px;border:1px solid rgba(255,255,255,.28);cursor:pointer;text-decoration:none;touch-action:manipulation;transition:background var(--tr)}
+.btn-white:hover{background:rgba(255,255,255,.22)}
+/* Hero right: 3-card agentic pillars */
+.hero-pillars{display:flex;flex-direction:column;gap:.85rem}
+.pillar-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);border-radius:14px;padding:1.25rem 1.4rem;display:flex;gap:1rem;align-items:flex-start;transition:background var(--tr)}
+.pillar-card:hover{background:rgba(255,255,255,.16)}
+.pillar-icon{font-size:1.6rem;line-height:1;flex-shrink:0;margin-top:.1rem}
+.pillar-card h3{font-family:var(--fn-hd);font-weight:700;font-size:.95rem;color:#fff;margin-bottom:.3rem}
+.pillar-card p{font-size:.82rem;color:rgba(255,255,255,.68);line-height:1.55}
+
+/* ────────── PARTNER STRIP ────────── */
+.partner-strip{background:var(--sand);padding:1.4rem 2rem;border-bottom:1px solid var(--border)}
+.ps-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.ps-label{font-size:.65rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gray-lt);white-space:nowrap;flex-shrink:0}
+.ps-badges{display:flex;gap:.55rem;overflow-x:auto;scrollbar-width:none;flex-wrap:wrap}
+.ps-badges::-webkit-scrollbar{display:none}
+.p-badge{display:flex;align-items:center;gap:.38rem;background:#fff;border:1px solid var(--border);border-radius:7px;padding:.42rem .85rem;font-family:var(--fn-hd);font-weight:700;font-size:.75rem;white-space:nowrap;color:var(--navy);flex-shrink:0}
+.pd{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pd-r{background:var(--red)} .pd-t{background:var(--teal)} .pd-b{background:#0070D2} .pd-y{background:var(--yellow)}
+
+/* ────────── SECTION STRUCTURE ────────── */
+.sw{padding:4rem 2rem;max-width:var(--max-w);margin:0 auto}
+.sw-gray{background:var(--sand)}
+.eyebrow{display:block;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.55rem}
+.sec-title{font-family:var(--fn-hd);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;line-height:1.2;color:var(--navy)}
+.sec-title span,.sec-title em{color:var(--red);font-style:normal}
+.sec-desc{margin-top:.7rem;font-size:.97rem;color:var(--gray);line-height:1.7;max-width:640px}
+.sec-hdr{margin-bottom:2.5rem}
+.sec-hdr-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.sec-hdr-row .sec-desc{margin-top:0}
+
+/* ────────── DARK BAND ────────── */
+.dark-band{background:#9E0E1C;padding:3.5rem 2rem;position:relative;overflow:hidden}
+.dark-band::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 100% at 100% 0%,rgba(232,23,47,.45) 0%,transparent 60%),
+  repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 2px,transparent 2px,transparent 20px)}
+.dark-band-inner{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;z-index:1}
+.dark-band h2{font-family:var(--fn-hd);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:800;color:#fff;line-height:1.2;margin-bottom:.75rem}
+.dark-band h2 em{font-style:normal;color:#fff}
+.dark-band p{color:rgba(255,255,255,.7);font-size:.95rem;line-height:1.75;margin-bottom:1.25rem}
+.chips-2x2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:1rem}
+.chip .n{font-family:var(--fn-hd);font-weight:800;font-size:1rem;color:var(--yellow-lt);margin-bottom:.22rem}
+.chip .l{font-size:.75rem;color:rgba(255,255,255,.55);line-height:1.4}
+
+/* ────────── BLOG CARDS ────────── */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
+.bc{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:box-shadow var(--tr),transform var(--tr);-webkit-tap-highlight-color:transparent}
+.bc:hover{box-shadow:0 10px 30px rgba(0,0,0,.1);transform:translateY(-3px)}
+.bc-top{height:4px}
+.bc-body{padding:1.2rem 1.2rem .9rem}
+.bc-tag{display:inline-block;font-size:.63rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(232,23,47,.08);color:var(--red);border-radius:4px;padding:.2rem .55rem;margin-bottom:.65rem}
+.bt-teal{background:rgba(15,95,90,.1);color:var(--teal)}
+.bt-navy{background:rgba(26,36,52,.07);color:var(--navy)}
+.bt-yell{background:rgba(244,168,24,.12);color:#7a5100}
+.bt-purp{background:rgba(99,60,180,.1);color:#5b3fa0}
+.bc h3{font-family:var(--fn-hd);font-weight:700;font-size:.93rem;line-height:1.35;color:var(--navy);margin-bottom:.5rem}
+.bc p{font-size:.82rem;color:var(--gray);line-height:1.6}
+.bc-foot{padding:.75rem 1.2rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.bc-meta{font-size:.73rem;color:var(--gray-lt)}
+.bc-read{font-size:.78rem;font-weight:600;color:var(--red)}
+
+/* ────────── YOUTUBE CARDS ────────── */
+.yt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.2rem}
+.yt-card{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#fff;transition:box-shadow var(--tr),transform var(--tr)}
+.yt-card:hover{box-shadow:0 10px 30px rgba(0,0,0,.1);transform:translateY(-3px)}
+.yt-thumb{position:relative;aspect-ratio:16/9;overflow:hidden;cursor:pointer;background:var(--navy);display:block}
+.yt-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.yt-card:hover .yt-thumb img{transform:scale(1.04)}
+.yt-play{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.22);transition:background var(--tr)}
+.yt-card:hover .yt-play{background:rgba(0,0,0,.08)}
+.yt-play svg{width:50px;height:50px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+.yt-dur{position:absolute;bottom:.5rem;right:.6rem;background:rgba(0,0,0,.78);color:#fff;font-size:.68rem;font-weight:600;padding:.14rem .42rem;border-radius:3px}
+.yt-embed{display:none;position:relative;aspect-ratio:16/9}
+.yt-embed.on{display:block}
+.yt-embed iframe{width:100%;height:100%;border:none;display:block}
+.yt-body{padding:1.1rem 1.1rem .85rem}
+.yt-ch{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-md);margin-bottom:.5rem;display:flex;align-items:center;gap:.35rem}
+.yt-body h3{font-family:var(--fn-hd);font-weight:700;font-size:.92rem;line-height:1.35;color:var(--navy);margin-bottom:.45rem}
+.yt-body p{font-size:.81rem;color:var(--gray);line-height:1.6}
+.yt-foot{padding:.72rem 1.1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.yt-watch{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:600;color:var(--red);text-decoration:none;transition:color var(--tr)}
+.yt-watch:hover{color:var(--red-dk)}
+
+/* ────────── OFFERING CARDS ────────── */
+.off-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.oc{border-radius:16px;padding:1.75rem;position:relative;overflow:hidden;color:#fff;transition:transform var(--tr),box-shadow var(--tr)}
+.oc:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.2)}
+.oc-r{background:linear-gradient(135deg,var(--red) 0%,#a50f1e 100%)}
+.oc-t{background:linear-gradient(135deg,var(--teal-md) 0%,#054a46 100%)}
+.oc-n{background:linear-gradient(135deg,var(--navy) 0%,#0c1520 100%)}
+.oc-y{background:linear-gradient(135deg,#c98000 0%,#8a5600 100%)}
+.oc-m{background:linear-gradient(135deg,#253555 0%,var(--teal) 100%)}
+.oc-l{background:var(--sand);color:var(--navy);border:1px solid var(--border)}
+.oc-d{background:linear-gradient(135deg,#2a2e38 0%,#1a1e26 100%)}
+.oc-g{background:linear-gradient(135deg,var(--teal) 0%,var(--red) 100%)}
+.oc-badge{position:absolute;top:1.1rem;right:1.1rem;background:rgba(255,255,255,.18);font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:20px;padding:.18rem .6rem}
+.oc-l .oc-badge{background:rgba(0,0,0,.07);color:var(--gray)}
+.oc-icon{font-size:1.7rem;margin-bottom:.85rem;display:block}
+.oc h3{font-family:var(--fn-hd);font-weight:700;font-size:1.02rem;line-height:1.3;margin-bottom:.5rem}
+.oc p{font-size:.83rem;line-height:1.65;opacity:.88}
+.oc-l p{color:var(--gray);opacity:1}
+
+/* ────────── TOOLKIT CARDS ────────── */
+.toolkit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2rem}
+.tk-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.5rem;border-top:4px solid var(--teal);transition:box-shadow var(--tr),transform var(--tr)}
+.tk-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.09);transform:translateY(-3px)}
+.tk-card.t-red{border-top-color:var(--red)}
+.tk-card.t-yell{border-top-color:var(--yellow)}
+.tk-icon{font-size:1.6rem;margin-bottom:.85rem}
+.tk-card h3{font-family:var(--fn-hd);font-weight:700;font-size:1rem;margin-bottom:.5rem;color:var(--navy)}
+.tk-card p{font-size:.83rem;color:var(--gray);line-height:1.65}
+
+/* ────────── DELIVERY DOMAINS ────────── */
+.domain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.dom{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.4rem;text-align:center;transition:box-shadow var(--tr),border-color var(--tr)}
+.dom:hover{box-shadow:0 6px 20px rgba(0,0,0,.08);border-color:var(--teal)}
+.dom-icon{font-size:2rem;margin-bottom:.65rem}
+.dom h3{font-family:var(--fn-hd);font-weight:700;font-size:.9rem;color:var(--navy)}
+.dom .dc{width:12px;height:12px;border-radius:50%;margin:.5rem auto 0;display:block}
+.dc-t{background:var(--teal-lt)} .dc-r{background:var(--red)} .dc-y{background:var(--yellow)} .dc-n{background:var(--navy)}
+
+/* ────────── CASE CARDS ────────── */
+.cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.cc-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:box-shadow var(--tr),transform var(--tr)}
+.cc-card:hover{box-shadow:0 10px 32px rgba(0,0,0,.1);transform:translateY(-3px)}
+.cc-bar{height:5px}
+.cc-body{padding:1.6rem 1.75rem 1.75rem}
+.cc-co{display:inline-flex;align-items:center;gap:.4rem;background:var(--sand);border-radius:7px;padding:.36rem .85rem;font-family:var(--fn-hd);font-weight:700;font-size:.83rem;margin-bottom:1.1rem}
+.cc-card h3{font-family:var(--fn-hd);font-weight:700;font-size:1.05rem;line-height:1.35;margin-bottom:.65rem}
+.cc-card p{font-size:.86rem;color:var(--gray);line-height:1.65}
+.cc-quote{margin-top:1.1rem;padding:.85rem 1rem;background:rgba(15,95,90,.06);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;font-style:italic;font-size:.84rem;color:var(--navy);line-height:1.6}
+.cc-quote cite{display:block;font-style:normal;font-size:.75rem;color:var(--gray);margin-top:.35rem;font-weight:600}
+.tag-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.1rem}
+.tag{font-size:.63rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);border-radius:4px;padding:.18rem .52rem;color:var(--gray)}
+
+/* ────────── LOGO WALL ────────── */
+.logo-wall{background:#9E0E1C;padding:3rem 2rem;position:relative;overflow:hidden}
+.logo-wall::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 100% at 100% 50%,rgba(232,23,47,.4) 0%,transparent 60%),repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 2px,transparent 2px,transparent 18px)}
+.logo-wall-inner{max-width:var(--max-w);margin:0 auto;position:relative;z-index:1}
+.logo-wall h3{font-family:var(--fn-hd);font-weight:800;font-size:1.4rem;color:#fff;margin-bottom:.5rem}
+.logo-wall p{color:rgba(255,255,255,.65);font-size:.9rem;margin-bottom:2rem}
+.logo-grid{display:flex;flex-wrap:wrap;gap:.75rem}
+.logo-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.55rem 1.1rem;font-family:var(--fn-hd);font-weight:700;font-size:.82rem;color:#fff;white-space:nowrap;backdrop-filter:blur(4px);transition:background var(--tr)}
+.logo-pill:hover{background:rgba(255,255,255,.2)}
+
+/* ────────── AI CARDS ────────── */
+.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.ai-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:box-shadow var(--tr),border-color var(--tr),transform var(--tr)}
+.ai-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.09);border-color:var(--teal);transform:translateY(-3px)}
+.ai-icon{width:46px;height:46px;flex-shrink:0;background:rgba(15,95,90,.1);border-radius:11px;display:grid;place-items:center;font-size:1.25rem}
+.ai-body h3{font-family:var(--fn-hd);font-weight:700;font-size:.91rem;line-height:1.35;margin-bottom:.42rem}
+.ai-body p{font-size:.81rem;color:var(--gray);line-height:1.6}
+.ai-plat{display:inline-block;margin-top:.75rem;font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:rgba(15,95,90,.1);color:var(--teal);border-radius:4px;padding:.18rem .55rem}
+
+/* ────────── WHY-US ────────── */
+.why-band{background:var(--navy);padding:3.5rem 2rem}
+.why-inner{max-width:var(--max-w);margin:0 auto}
+.why-inner h3{font-family:var(--fn-hd);font-weight:800;font-size:clamp(1.4rem,2.5vw,2rem);color:#fff;margin-bottom:.7rem}
+.why-inner h3 em{font-style:normal;color:var(--teal-lt)}
+.why-inner p{font-size:.95rem;color:rgba(255,255,255,.6);line-height:1.7;max-width:560px;margin-bottom:2rem}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.wc{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1.1rem 1rem}
+.wc .wn{font-family:var(--fn-hd);font-weight:800;font-size:1.15rem;color:var(--yellow-lt);margin-bottom:.25rem}
+.wc .wl{font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.45}
+
+/* ────────── CTA ROW ────────── */
+.cta-row{text-align:center;margin-top:2.5rem}
+.btn-navy{display:inline-flex;align-items:center;gap:.45rem;background:var(--navy);color:#fff;font-family:var(--fn-bd);font-weight:600;font-size:.87rem;padding:.85rem 1.75rem;border-radius:8px;text-decoration:none;transition:background var(--tr);-webkit-tap-highlight-color:transparent}
+.btn-navy:hover{background:var(--navy-lt)}
+.btn-teal{display:inline-flex;align-items:center;gap:.45rem;background:var(--teal);color:#fff;font-family:var(--fn-bd);font-weight:600;font-size:.87rem;padding:.85rem 1.75rem;border-radius:8px;text-decoration:none;transition:background var(--tr);-webkit-tap-highlight-color:transparent}
+.btn-teal:hover{background:var(--teal-md)}
+
+/* ────────── SECTION HERO (non-home) ────────── */
+.sec-hero{background:#9E0E1C;padding:3.5rem 2rem 3rem;position:relative;overflow:hidden}
+.sec-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 20%,rgba(232,23,47,.5) 0%,transparent 65%),radial-gradient(ellipse 40% 60% at 0% 100%,rgba(60,0,8,.6) 0%,transparent 60%)}
+.sec-hero-inner{max-width:var(--max-w);margin:0 auto;position:relative;z-index:1}
+.sec-hero .eyebrow{color:rgba(255,255,255,.6)}
+.sec-hero h1{font-family:var(--fn-hd);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:.9rem}
+.sec-hero h1 em{font-style:normal;color:#fff}
+.sec-hero p{color:rgba(255,255,255,.68);font-size:1rem;line-height:1.72;max-width:580px}
+
+/* ────────── RED CLOSING BAND ────────── */
+.red-band{background:var(--red);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+.red-band h2{font-family:var(--fn-hd);font-weight:800;font-size:clamp(1.6rem,3vw,2.4rem);color:#fff;margin-bottom:.65rem}
+.red-band p{color:rgba(255,255,255,.75);font-size:1rem;line-height:1.7;max-width:540px;margin:0 auto 1.75rem}
+.red-band .btn-white2{display:inline-flex;align-items:center;gap:.5rem;background:#fff;color:var(--red);font-family:var(--fn-bd);font-weight:700;font-size:.9rem;padding:.85rem 2rem;border-radius:8px;text-decoration:none;transition:box-shadow var(--tr)}
+.red-band .btn-white2:hover{box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+/* ────────── FOOTER ────────── */
+footer{background:var(--navy);padding:2.5rem 2rem}
+.ft-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem}
+.ft-brand{font-family:var(--fn-hd);font-weight:700;color:#fff;font-size:1rem}
+.ft-brand small{display:block;font-family:var(--fn-bd);font-weight:400;font-size:.74rem;color:rgba(255,255,255,.38);margin-top:.25rem}
+.ft-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.ft-links a{color:rgba(255,255,255,.44);text-decoration:none;font-size:.84rem;transition:color var(--tr)}
+.ft-links a:hover{color:var(--teal-lt)}
+
+/* ────────── CONTACT FORM ────────── */
+.contact-band{background:var(--navy);padding:4rem 2rem;position:relative;overflow:hidden}
+.contact-band::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 100% 0%,rgba(232,23,47,.15) 0%,transparent 60%)}
+.contact-inner{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;position:relative;z-index:1}
+.contact-copy h2{font-family:var(--fn-hd);font-weight:800;font-size:clamp(1.6rem,2.8vw,2.2rem);color:#fff;line-height:1.2;margin-bottom:.75rem}
+.contact-copy h2 em{font-style:normal;color:var(--red)}
+.contact-copy p{color:rgba(255,255,255,.65);font-size:.97rem;line-height:1.75;margin-bottom:1.5rem}
+.contact-person{display:flex;align-items:center;gap:1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1rem 1.25rem}
+.contact-avatar{width:44px;height:44px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-size:1.2rem;flex-shrink:0}
+.contact-person-info .name{font-family:var(--fn-hd);font-weight:700;font-size:.9rem;color:#fff}
+.contact-person-info .role{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:.1rem}
+.contact-person-info .mail{font-size:.78rem;color:var(--teal-lt);text-decoration:none;margin-top:.15rem;display:block}
+.cf-form{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:2rem}
+.cf-form h3{font-family:var(--fn-hd);font-weight:700;font-size:1.1rem;color:#fff;margin-bottom:1.5rem}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.cf-field{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.cf-field label{font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.cf-field input,.cf-field textarea,.cf-field select{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.7rem .9rem;color:#fff;font-family:var(--fn-bd);font-size:.9rem;outline:none;transition:border-color var(--tr),background var(--tr);width:100%}
+.cf-field input:focus,.cf-field textarea:focus,.cf-field select:focus{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.12)}
+.cf-field input::placeholder,.cf-field textarea::placeholder{color:rgba(255,255,255,.3)}
+.cf-field select option{background:var(--navy);color:#fff}
+.cf-field textarea{resize:vertical;min-height:90px}
+.cf-submit{width:100%;background:var(--red);color:#fff;font-family:var(--fn-bd);font-weight:700;font-size:.95rem;padding:.9rem 2rem;border-radius:8px;border:none;cursor:pointer;transition:background var(--tr),transform .1s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.cf-submit:hover{background:var(--red-dk);transform:translateY(-2px)}
+.cf-submit:active{transform:scale(.98)}
+.cf-success{display:none;text-align:center;padding:2rem;color:#fff}
+.cf-success .tick{font-size:2.5rem;margin-bottom:.75rem}
+.cf-success h4{font-family:var(--fn-hd);font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.cf-success p{color:rgba(255,255,255,.65);font-size:.9rem}
+/* Floating CTA */
+.float-cta{position:fixed;bottom:calc(var(--tab-h) + var(--safe-b) + 1rem);right:1.25rem;z-index:250;
+  background:var(--red);color:#fff;font-family:var(--fn-bd);font-weight:700;font-size:.82rem;
+  padding:.65rem 1.2rem;border-radius:30px;border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(232,23,47,.45);
+  display:flex;align-items:center;gap:.45rem;
+  transition:background var(--tr),transform var(--tr),box-shadow var(--tr);
+  -webkit-tap-highlight-color:transparent}
+.float-cta:hover{background:var(--red-dk);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,23,47,.5)}
+@media(min-width:769px){
+  .float-cta{bottom:1.5rem;right:1.75rem}
+  .contact-inner{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .contact-inner{grid-template-columns:1fr;gap:2rem}
+  .cf-row{grid-template-columns:1fr}
+}
+
+/* ────────── ANIM ────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.section.active>*{animation:fadeUp .3s ease both}
+.section.active>*:nth-child(2){animation-delay:.05s}
+.section.active>*:nth-child(3){animation-delay:.1s}
+.section.active>*:nth-child(4){animation-delay:.15s}
+.section.active>*:nth-child(5){animation-delay:.18s}
+.section.active>*:nth-child(6){animation-delay:.22s}
+
+/* ────────── RESPONSIVE ────────── */
+@media(max-width:1024px){
+  .off-grid{grid-template-columns:1fr 1fr}
+  .ai-grid{grid-template-columns:1fr 1fr}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .domain-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:768px){
+  :root{--nav-h:52px}
+  .top-links,.logo-sub{display:none}
+  .top-bar{padding:0 1rem;justify-content:space-between}
+  .tab-bar{display:flex}
+  .page-wrap{padding-bottom:calc(var(--tab-h) + var(--safe-b))}
+  .hero{padding:2.25rem 1.25rem 2.5rem}
+  .hero-inner{grid-template-columns:1fr;gap:2rem}
+  .hero h1{font-size:1.85rem}
+  .hero-btns{flex-direction:column}
+  .btn-primary,.btn-white{justify-content:center}
+  .ps-badges{flex-wrap:nowrap}
+  .sw,.sec-hero,.dark-band,.logo-wall,.why-band,.red-band{padding-left:1.25rem;padding-right:1.25rem}
+  .sw{padding-top:2.25rem;padding-bottom:2.25rem}
+  .dark-band-inner{grid-template-columns:1fr;gap:1.75rem}
+  .blog-grid{grid-template-columns:1fr}
+  .yt-grid{grid-template-columns:1fr}
+  .off-grid{grid-template-columns:1fr}
+  .cases-grid{grid-template-columns:1fr}
+  .ai-grid{grid-template-columns:1fr}
+  .toolkit-grid{grid-template-columns:1fr}
+  .domain-grid{grid-template-columns:1fr 1fr}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .chips-2x2{grid-template-columns:1fr 1fr}
+  .sec-hdr-row{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){
+  .hero h1{font-size:1.65rem}
+  .domain-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP BAR ══ -->
+<header class="top-bar">
+  <a class="top-logo" href="#" onclick="show('home');return false">
+    <img src="data:image/png;base64,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" alt="Redpill Linpro" class="logo-img"/>
+    <span class="logo-sub">Salesforce · MuleSoft · Agentforce</span>
+  </a>
+  <nav class="top-links">
+    <a id="nav-home"      onclick="show('home')"      class="active">Home</a>
+    <a id="nav-blogs"     onclick="show('blogs')"             >Blog &amp; Videos</a>
+    <a id="nav-offerings" onclick="show('offerings')"         >Offerings</a>
+    <a id="nav-cases"     onclick="show('cases')"             >Customer Cases</a>
+    <a id="nav-ai"        onclick="show('ai')"                >AI Use Cases</a>
+  </nav>
+  <a class="top-cta" href="https://www.redpill-linpro.com/en/contact" target="_blank">Contact us</a>
+</header>
+
+<main class="page-wrap">
+
+<!-- ═══════════════════════ HOME ═══════════════════════ -->
+<div id="sec-home" class="section active">
+
+  <div class="hero">
+    <div class="hero-photo"></div>
+    <div class="hero-mesh"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow"><span class="hero-dot"></span>The Agentic Enterprise is here</div>
+        <h1>Humans and <em>AI Agents,</em><br/>as One Team</h1>
+        <p class="hero-desc">Redpill Linpro is your trusted Nordic partner for Salesforce, MuleSoft and Agentforce — from strategy and implementation to AI-powered automation that drives measurable outcomes at scale.</p>
+        <div class="hero-btns">
+          <a class="btn-primary" onclick="show('offerings');return false">Explore offerings →</a>
+          <a class="btn-white"   onclick="show('cases');return false">Customer stories</a>
+        </div>
+      </div>
+      <div class="hero-pillars">
+        <div class="pillar-card">
+          <span class="pillar-icon">🤖</span>
+          <div><h3>Autonomous Agents</h3><p>AI agents that capture inputs, trigger workflows, and execute processes in seconds — so your experts can focus on delivering spectacular results.</p></div>
+        </div>
+        <div class="pillar-card">
+          <span class="pillar-icon">📈</span>
+          <div><h3>Measurable Impact</h3><p>From pilot programmes to production environments, driving outcomes at scale. We don't just implement AI — we build the strategy your agents need.</p></div>
+        </div>
+        <div class="pillar-card">
+          <span class="pillar-icon">🤝</span>
+          <div><h3>Human + AI Teams</h3><p>People and agents collaborating seamlessly, each doing what they do best. Technology &amp; advisory, business process mapping, collaboration throughout.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partner badges -->
+  <div class="partner-strip">
+    <div class="ps-inner">
+      <span class="ps-label">Our platforms</span>
+      <div class="ps-badges">
+        <div class="p-badge"><span class="pd pd-b"></span>Salesforce CRM</div>
+        <div class="p-badge"><span class="pd pd-t"></span>MuleSoft Anypoint</div>
+        <div class="p-badge"><span class="pd pd-r"></span>Agentforce</div>
+        <div class="p-badge"><span class="pd pd-b"></span>Marketing Cloud</div>
+        <div class="p-badge"><span class="pd pd-y"></span>Data Cloud / Data360</div>
+        <div class="p-badge"><span class="pd pd-t"></span>Health Cloud</div>
+        <div class="p-badge"><span class="pd pd-r"></span>Life Sciences Cloud</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- We deliver across the board -->
+  <div style="background:var(--sand)">
+    <div class="sw">
+      <div class="sec-hdr">
+        <span class="eyebrow">We deliver across the board</span>
+        <h2 class="sec-title">Salesforce · MuleSoft · <span>Agentforce</span></h2>
+        <p class="sec-desc">A full-service Nordic consultancy covering the complete Salesforce ecosystem — from CRM and integration to AI agents and marketing automation.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem">
+        <div class="tk-card" onclick="show('offerings')" style="cursor:pointer;border-top-color:var(--red)">
+          <div class="tk-icon">☁️</div>
+          <h3>Salesforce</h3>
+          <p>CRM &amp; Agentforce Platform — Sales, Service, Marketing, Industry Clouds and full implementation consultancy.</p>
+        </div>
+        <div class="tk-card" onclick="show('offerings')" style="cursor:pointer">
+          <div class="tk-icon">🔗</div>
+          <h3>MuleSoft</h3>
+          <p>API, Integration &amp; Agent Fabric — connecting your entire landscape with the world's #1 integration platform.</p>
+        </div>
+        <div class="tk-card" onclick="show('ai')" style="cursor:pointer;border-top-color:var(--yellow)">
+          <div class="tk-icon">🤖</div>
+          <h3>Agentforce &amp; Data360</h3>
+          <p>AI Agents &amp; Automation — autonomous agents, personalisation engines and AI-powered analytics at scale.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick nav -->
+  <div class="sw">
+    <div class="sec-hdr-row">
+      <div>
+        <span class="eyebrow">Explore</span>
+        <h2 class="sec-title">Where to go next</h2>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.9rem;margin-bottom:3.5rem">
+      <div onclick="show('blogs')"     style="border:1px solid var(--border);border-radius:14px;padding:1.35rem;cursor:pointer;background:#fff;transition:box-shadow var(--tr),transform var(--tr);display:flex;flex-direction:column;gap:.65rem" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,.09)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="width:40px;height:40px;border-radius:9px;background:rgba(244,168,24,.12);display:grid;place-items:center;font-size:1.15rem">📝</div>
+        <div style="font-family:var(--fn-hd);font-weight:700;font-size:.9rem">Blog &amp; Videos</div>
+        <div style="font-size:.8rem;color:var(--gray)">8 articles + 4 YouTube tutorials</div>
+        <div style="font-size:.85rem;color:var(--red);margin-top:auto">→</div>
+      </div>
+      <div onclick="show('offerings')" style="border:1px solid var(--border);border-radius:14px;padding:1.35rem;cursor:pointer;background:#fff;transition:box-shadow var(--tr),transform var(--tr);display:flex;flex-direction:column;gap:.65rem" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,.09)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="width:40px;height:40px;border-radius:9px;background:rgba(232,23,47,.1);display:grid;place-items:center;font-size:1.15rem">🔧</div>
+        <div style="font-family:var(--fn-hd);font-weight:700;font-size:.9rem">Offerings</div>
+        <div style="font-size:.8rem;color:var(--gray)">Implementation, integration &amp; managed services</div>
+        <div style="font-size:.85rem;color:var(--red);margin-top:auto">→</div>
+      </div>
+      <div onclick="show('cases')"     style="border:1px solid var(--border);border-radius:14px;padding:1.35rem;cursor:pointer;background:#fff;transition:box-shadow var(--tr),transform var(--tr);display:flex;flex-direction:column;gap:.65rem" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,.09)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="width:40px;height:40px;border-radius:9px;background:rgba(15,95,90,.1);display:grid;place-items:center;font-size:1.15rem">🏆</div>
+        <div style="font-family:var(--fn-hd);font-weight:700;font-size:.9rem">Customer Cases</div>
+        <div style="font-size:.8rem;color:var(--gray)">VW, Copenhagen Airport, Strawberry &amp; more</div>
+        <div style="font-size:.85rem;color:var(--red);margin-top:auto">→</div>
+      </div>
+      <div onclick="show('ai')"        style="border:1px solid var(--border);border-radius:14px;padding:1.35rem;cursor:pointer;background:#fff;transition:box-shadow var(--tr),transform var(--tr);display:flex;flex-direction:column;gap:.65rem" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,.09)';this.style.transform='translateY(-3px)'" onmouseout="this.style.boxShadow='';this.style.transform=''">
+        <div style="width:40px;height:40px;border-radius:9px;background:rgba(99,60,180,.1);display:grid;place-items:center;font-size:1.15rem">🤖</div>
+        <div style="font-family:var(--fn-hd);font-weight:700;font-size:.9rem">AI Use Cases</div>
+        <div style="font-size:.8rem;color:var(--gray)">Agentforce, Einstein, SFMC AI &amp; MuleSoft</div>
+        <div style="font-size:.85rem;color:var(--red);margin-top:auto">→</div>
+      </div>
+    </div>
+
+    <!-- Blog preview -->
+    <div class="sec-hdr-row">
+      <div><span class="eyebrow">Latest from our team</span><h2 class="sec-title">Blog highlights</h2></div>
+      <a class="btn-navy" onclick="show('blogs');return false" style="font-size:.8rem;padding:.55rem 1.1rem">All posts →</a>
+    </div>
+    <div class="blog-grid">
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/creating-autonomous-crm-incident-investigator-nova" target="_blank">
+        <div class="bc-top" style="background:var(--teal)"></div>
+        <div class="bc-body"><span class="bc-tag bt-purp">AI Agent</span><h3>Creating an Autonomous CRM Incident Investigator with Nova</h3><p>Using Nova Pro v1 as an autonomous agent that debugs lead source anomalies in CRM by reasoning through a bounded tool set — applicable to any data platform.</p></div>
+        <div class="bc-foot"><span class="bc-meta">AI · Salesforce</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/transforming-gpt-4o-ai-query-assistant-sfmc" target="_blank">
+        <div class="bc-top" style="background:var(--red)"></div>
+        <div class="bc-body"><span class="bc-tag">AI &amp; SFMC</span><h3>Transforming GPT-4o into an AI Query Assistant for SFMC</h3><p>Practical real-world integration of GPT into Salesforce Marketing Cloud — prompt engineering and fine-tuning for use cases beyond content generation.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Marketing Cloud</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/turning-claude-your-salesforce-marketing-cloud-agent-playwright-mcp-no" target="_blank">
+        <div class="bc-top" style="background:var(--navy)"></div>
+        <div class="bc-body"><span class="bc-tag bt-purp">LLM Agents</span><h3>Turning Claude into Your SFMC Agent with Playwright MCP</h3><p>How LLMs combined with Playwright browser automation can simplify repetitive tasks on Salesforce Marketing Cloud — no coding required.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Automation · MCP</span><span class="bc-read">Read →</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="red-band">
+    <h2>Let's build the future together</h2>
+    <p>redpill-linpro.com — Building the Nordic digital society</p>
+    <a class="btn-white2" href="https://www.redpill-linpro.com/en/contact" target="_blank">Get in touch →</a>
+  </div>
+  <footer><div class="ft-inner">
+    <div class="ft-brand">Redpill Linpro<small>Building the Nordic digital society</small></div>
+    <div class="ft-links">
+      <a href="https://www.redpill-linpro.com" target="_blank">redpill-linpro.com</a>
+      <a href="https://www.linkedin.com/company/redpill-linpro/" target="_blank">LinkedIn</a>
+      <a href="https://www.youtube.com/c/RedpillLinproIT" target="_blank">YouTube</a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ═══════════════════════ BLOGS ═══════════════════════ -->
+<div id="sec-blogs" class="section">
+  <div class="sec-hero">
+    <div class="sec-hero-inner">
+      <span class="eyebrow">Insights &amp; thought leadership</span>
+      <h1>Blog &amp; <em>Video Tutorials</em></h1>
+      <p>Deep-dives, best practices and hands-on tutorials from our Nordic Salesforce, MuleSoft and AI team — published on redpill-linpro.com and YouTube.</p>
+    </div>
+  </div>
+
+  <div class="sw">
+    <div class="sec-hdr-row">
+      <div><span class="eyebrow">8 articles</span><h2 class="sec-title">Blog <span>highlights</span></h2></div>
+      <a class="btn-teal" href="https://www.redpill-linpro.com/en/blogs/customer-experience" target="_blank" style="font-size:.82rem;padding:.6rem 1.1rem">All on redpill-linpro.com →</a>
+    </div>
+    <div class="blog-grid">
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/creating-autonomous-crm-incident-investigator-nova" target="_blank">
+        <div class="bc-top" style="background:var(--teal)"></div>
+        <div class="bc-body"><span class="bc-tag bt-purp">AI Agent</span><h3>Creating an Autonomous CRM Incident Investigator with Nova</h3><p>Using Nova Pro v1 as an autonomous agent that debugs lead source anomalies in CRM by reasoning through a bounded tool set. Framework applies to any data platform.</p></div>
+        <div class="bc-foot"><span class="bc-meta">AWS Nova · Salesforce</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/transforming-gpt-4o-ai-query-assistant-sfmc" target="_blank">
+        <div class="bc-top" style="background:var(--red)"></div>
+        <div class="bc-body"><span class="bc-tag">AI &amp; SFMC</span><h3>Transforming GPT-4o into an AI Query Assistant for SFMC</h3><p>Real-world integration of GPT into Salesforce Marketing Cloud — prompt engineering and fine-tuning for practical use cases beyond simple content generation.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Marketing Cloud</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/turning-claude-your-salesforce-marketing-cloud-agent-playwright-mcp-no" target="_blank">
+        <div class="bc-top" style="background:var(--navy)"></div>
+        <div class="bc-body"><span class="bc-tag bt-purp">LLM Agents</span><h3>Turning Claude into Your SFMC Agent with Playwright MCP (No coding)</h3><p>How LLMs combined with Playwright browser automation simplify repetitive tasks on Salesforce Marketing Cloud — controlling the UI with zero code.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Automation · MCP</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/building-next-best-action-engine-sfmc-using-digitalocean-droplets-sftp" target="_blank">
+        <div class="bc-top" style="background:var(--yellow)"></div>
+        <div class="bc-body"><span class="bc-tag bt-teal">Integration</span><h3>Building a Next Best Action Engine for SFMC Using DigitalOcean Droplets</h3><p>An AI-powered next best action engine integrated with Salesforce Marketing Cloud via DigitalOcean Droplets and SFTP — a full step-by-step guide.</p></div>
+        <div class="bc-foot"><span class="bc-meta">SFMC · DigitalOcean</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/how-accessible-your-salesforce-solution-and-why-it-matters" target="_blank">
+        <div class="bc-top" style="background:var(--teal)"></div>
+        <div class="bc-body"><span class="bc-tag bt-teal">Accessibility</span><h3>How Accessible Is Your Salesforce Solution – And Why It Matters</h3><p>Overlooking accessibility in Salesforce projects can cost more than you think. A few small changes make a big difference for users, customers and legal compliance.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Salesforce · UX</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/unlocking-power-salesforce-content-libraries-your-teams-secret-weapon" target="_blank">
+        <div class="bc-top" style="background:var(--red)"></div>
+        <div class="bc-body"><span class="bc-tag">Sales Cloud</span><h3>Unlocking the Power of Salesforce Content Libraries: Your Team's Secret Weapon</h3><p>Salesforce Content Libraries are one of the most underused features in the platform. Here's how to make them your team's most powerful productivity asset.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Salesforce</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/life-sciences-cloud-streamlining-clinical-trials-recruitment-enrollment" target="_blank">
+        <div class="bc-top" style="background:var(--navy)"></div>
+        <div class="bc-body"><span class="bc-tag bt-navy">Industry Cloud</span><h3>Life Sciences Cloud: Streamlining Clinical Trials from Recruitment to Enrollment</h3><p>How Salesforce Life Sciences Cloud accelerates clinical trial recruitment, patient enrollment and site management for life sciences organisations.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Life Sciences</span><span class="bc-read">Read →</span></div>
+      </a>
+      <a class="bc" href="https://www.redpill-linpro.com/en/blogs/customer-experience/unlocking-breakthroughs-how-salesforce-health-cloud-data-cloud-empower" target="_blank">
+        <div class="bc-top" style="background:var(--teal)"></div>
+        <div class="bc-body"><span class="bc-tag bt-teal">MedTech</span><h3>Unlocking Breakthroughs: How Salesforce Health Cloud &amp; Data Cloud Empower MedTech</h3><p>Salesforce Health Cloud and Data Cloud as a combined AI platform for MedTech — accelerating innovation and improving patient outcomes.</p></div>
+        <div class="bc-foot"><span class="bc-meta">Health Cloud · MedTech</span><span class="bc-read">Read →</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div style="background:var(--sand)">
+    <div class="sw">
+      <div class="sec-hdr-row">
+        <div>
+          <span class="eyebrow">4 video tutorials</span>
+          <h2 class="sec-title">SFMC on <span>YouTube</span></h2>
+          <p class="sec-desc">Practical Salesforce Marketing Cloud tutorials — SSJS, AMPscript, SQL, weather APIs and more. Click any thumbnail to play inline.</p>
+        </div>
+        <a class="btn-navy" href="https://www.youtube.com/c/RedpillLinproIT" target="_blank" style="font-size:.82rem;padding:.6rem 1.1rem">All videos →</a>
+      </div>
+      <div class="yt-grid">
+
+        <!-- Video 1 -->
+        <div class="yt-card">
+          <div class="yt-thumb" onclick="playVid(this,'CK5VnTKR3js',134)">
+            <img src="https://img.youtube.com/vi/CK5VnTKR3js/maxresdefault.jpg" alt="SFMC Paused Automation Alert" loading="lazy" onerror="this.src='https://img.youtube.com/vi/CK5VnTKR3js/hqdefault.jpg'"/>
+            <div class="yt-play"><svg viewBox="0 0 68 48"><path d="M66.5 7.7c-.8-2.9-2.9-5.1-5.7-6C56.4.5 34 .5 34 .5S11.6.4 7.2 1.6C4.5 2.4 2.2 4.6 1.4 7.5.3 11.9.3 24 .3 24s0 12.1 1.1 16.3c.8 2.9 2.9 5.1 5.7 6C11.5 47.5 34 47.5 34 47.5s22.4 0 26.8-1.2c2.8-.8 4.9-3 5.7-5.9C67.7 36.1 67.7 24 67.7 24s.1-12.1-1.2-16.3z" fill="#FF0000"/><path d="M27.1 34.6L45 24 27.1 13.4v21.2z" fill="#FFF"/></svg></div>
+            <span class="yt-dur">9:29</span>
+          </div>
+          <div class="yt-embed" id="ytembed-CK5VnTKR3js"></div>
+          <div class="yt-body">
+            <div class="yt-ch">▶ Redpill Linpro</div>
+            <h3>SFMC Paused Automation Alert – SSJS, SQL &amp; AMPscript Tutorial</h3>
+            <p>Build an automated alert that detects automations paused in the last 7 days and sends email notifications — covering SSJS (WSProxy), SQL in Automation Studio and AMPscript conditional sends.</p>
+          </div>
+          <div class="yt-foot">
+            <span style="font-size:.73rem;color:var(--gray-lt)">7,027 views · 9 min</span>
+            <a class="yt-watch" href="https://www.youtube.com/watch?v=CK5VnTKR3js&t=134s" target="_blank">Watch on YouTube ↗</a>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="yt-card">
+          <div class="yt-thumb" onclick="playVid(this,'3U27rhBrTq8',0)">
+            <img src="https://img.youtube.com/vi/3U27rhBrTq8/maxresdefault.jpg" alt="Weather-Triggered Emails SFMC" loading="lazy" onerror="this.src='https://img.youtube.com/vi/3U27rhBrTq8/hqdefault.jpg'"/>
+            <div class="yt-play"><svg viewBox="0 0 68 48"><path d="M66.5 7.7c-.8-2.9-2.9-5.1-5.7-6C56.4.5 34 .5 34 .5S11.6.4 7.2 1.6C4.5 2.4 2.2 4.6 1.4 7.5.3 11.9.3 24 .3 24s0 12.1 1.1 16.3c.8 2.9 2.9 5.1 5.7 6C11.5 47.5 34 47.5 34 47.5s22.4 0 26.8-1.2c2.8-.8 4.9-3 5.7-5.9C67.7 36.1 67.7 24 67.7 24s.1-12.1-1.2-16.3z" fill="#FF0000"/><path d="M27.1 34.6L45 24 27.1 13.4v21.2z" fill="#FFF"/></svg></div>
+            <span class="yt-dur">20:50</span>
+          </div>
+          <div class="yt-embed" id="ytembed-3U27rhBrTq8"></div>
+          <div class="yt-body">
+            <div class="yt-ch">▶ Redpill Linpro</div>
+            <h3>How to Build Weather-Triggered Emails in SFMC (Free API + SSJS)</h3>
+            <p>Full weather-based email personalisation — subscribers get product recommendations tailored to their local forecast using Open-Meteo (free, no API key), SSJS scripts and AMPscript dynamic content blocks.</p>
+          </div>
+          <div class="yt-foot">
+            <span style="font-size:.73rem;color:var(--gray-lt)">11,014 views · 20 min</span>
+            <a class="yt-watch" href="https://www.youtube.com/watch?v=3U27rhBrTq8" target="_blank">Watch on YouTube ↗</a>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="yt-card">
+          <div class="yt-thumb" onclick="playVid(this,'741ENxv_3OM',36)">
+            <img src="https://img.youtube.com/vi/741ENxv_3OM/maxresdefault.jpg" alt="SFMC Tutorial" loading="lazy" onerror="this.src='https://img.youtube.com/vi/741ENxv_3OM/hqdefault.jpg'"/>
+            <div class="yt-play"><svg viewBox="0 0 68 48"><path d="M66.5 7.7c-.8-2.9-2.9-5.1-5.7-6C56.4.5 34 .5 34 .5S11.6.4 7.2 1.6C4.5 2.4 2.2 4.6 1.4 7.5.3 11.9.3 24 .3 24s0 12.1 1.1 16.3c.8 2.9 2.9 5.1 5.7 6C11.5 47.5 34 47.5 34 47.5s22.4 0 26.8-1.2c2.8-.8 4.9-3 5.7-5.9C67.7 36.1 67.7 24 67.7 24s.1-12.1-1.2-16.3z" fill="#FF0000"/><path d="M27.1 34.6L45 24 27.1 13.4v21.2z" fill="#FFF"/></svg></div>
+          </div>
+          <div class="yt-embed" id="ytembed-741ENxv_3OM"></div>
+          <div class="yt-body">
+            <div class="yt-ch">▶ Redpill Linpro</div>
+            <h3>SFMC Tutorial – Practical Tips &amp; Techniques</h3>
+            <p>Another hands-on Salesforce Marketing Cloud tutorial from our SFMC practice. Click to play and explore the latest techniques from Nils Johansson and the team.</p>
+          </div>
+          <div class="yt-foot">
+            <a class="yt-watch" href="https://www.youtube.com/watch?v=741ENxv_3OM&t=36s" target="_blank">Watch on YouTube ↗</a>
+          </div>
+        </div>
+
+        <!-- Video 4 -->
+        <div class="yt-card">
+          <div class="yt-thumb" onclick="playVid(this,'t-66ksWG-Hg',28)">
+            <img src="https://img.youtube.com/vi/t-66ksWG-Hg/maxresdefault.jpg" alt="SFMC Automation Studio" loading="lazy" onerror="this.src='https://img.youtube.com/vi/t-66ksWG-Hg/hqdefault.jpg'"/>
+            <div class="yt-play"><svg viewBox="0 0 68 48"><path d="M66.5 7.7c-.8-2.9-2.9-5.1-5.7-6C56.4.5 34 .5 34 .5S11.6.4 7.2 1.6C4.5 2.4 2.2 4.6 1.4 7.5.3 11.9.3 24 .3 24s0 12.1 1.1 16.3c.8 2.9 2.9 5.1 5.7 6C11.5 47.5 34 47.5 34 47.5s22.4 0 26.8-1.2c2.8-.8 4.9-3 5.7-5.9C67.7 36.1 67.7 24 67.7 24s.1-12.1-1.2-16.3z" fill="#FF0000"/><path d="M27.1 34.6L45 24 27.1 13.4v21.2z" fill="#FFF"/></svg></div>
+            <span class="yt-dur">9:29</span>
+          </div>
+          <div class="yt-embed" id="ytembed-t-66ksWG-Hg"></div>
+          <div class="yt-body">
+            <div class="yt-ch">▶ Redpill Linpro</div>
+            <h3>SFMC Paused Automation Alert – Full Solution Walkthrough</h3>
+            <p>Step-by-step walkthrough of the complete solution: detecting paused automations with SSJS WSProxy, filtering with SQL, building conditional send lists and alert emails in AMPscript.</p>
+          </div>
+          <div class="yt-foot">
+            <span style="font-size:.73rem;color:var(--gray-lt)">SSJS · SQL · AMPscript</span>
+            <a class="yt-watch" href="https://www.youtube.com/watch?v=t-66ksWG-Hg&t=28s" target="_blank">Watch on YouTube ↗</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer><div class="ft-inner">
+    <div class="ft-brand">Redpill Linpro<small>Building the Nordic digital society</small></div>
+    <div class="ft-links">
+      <a onclick="show('home');return false">Home</a>
+      <a href="https://www.redpill-linpro.com/en/blogs" target="_blank">All blogs</a>
+      <a href="https://www.youtube.com/c/RedpillLinproIT" target="_blank">YouTube</a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ═══════════════════════ OFFERINGS ═══════════════════════ -->
+<div id="sec-offerings" class="section">
+  <div class="sec-hero">
+    <div class="sec-hero-inner">
+      <span class="eyebrow">Our services</span>
+      <h1>What we <em>deliver</em></h1>
+      <p>End-to-end consultancy from strategy and architecture through implementation, managed services and AI-powered optimisation — delivered by certified Nordic experts.</p>
+    </div>
+  </div>
+
+  <div class="sw">
+    <div class="sec-hdr"><span class="eyebrow">Core services</span><h2 class="sec-title">Salesforce · MuleSoft · <span>Agentforce</span></h2></div>
+    <div class="off-grid">
+      <div class="oc oc-r" onclick="window.open('https://www.redpill-linpro.com/en/solutions/customer-experience','_blank')" style="cursor:pointer"><div class="oc-badge">Salesforce ↗</div><span class="oc-icon">☁️</span><h3>Salesforce Implementation</h3><p>Full-cycle CRM implementation across Sales Cloud, Service Cloud, Marketing Cloud and industry clouds — configured for your specific business model and processes.</p></div>
+      <div class="oc oc-t" onclick="window.open('https://www.redpill-linpro.com/en/solutions/mulesoft-anypoint-platform-service','_blank')" style="cursor:pointer"><div class="oc-badge">MuleSoft ↗</div><span class="oc-icon">🔗</span><h3>MuleSoft Anypoint Platform</h3><p>AI-driven BizTalk migrations, API-led connectivity and Agent Fabric — connecting your entire landscape with the world's #1 integration platform. Including packaged delivery with maturity assessments.</p></div>
+      <div class="oc oc-n" onclick="window.open('https://www.redpill-linpro.com/en/solutions/customer-experience','_blank')" style="cursor:pointer"><div class="oc-badge">Architecture ↗</div><span class="oc-icon">🏗️</span><h3>Solution Architecture &amp; Advisory</h3><p>Technology-agnostic advisory covering integration strategy, platform roadmap, data architecture and AI readiness — ensuring your investments are future-proof and scalable.</p></div>
+      <div class="oc oc-y" onclick="window.open('https://www.redpill-linpro.com/en/products/salesforce-devops-center-package','_blank')" style="cursor:pointer"><div class="oc-badge">DevOps ↗</div><span class="oc-icon">⚙️</span><h3>DevOps &amp; CI/CD for Salesforce</h3><p>Source-driven development, automated testing pipelines, release management and environment strategies — increased efficiency and decreased time-to-market in every delivery.</p></div>
+      <div class="oc oc-m" onclick="window.open('https://www.redpill-linpro.com/en/products/salesforce-marketing-automation-support-and-enhance','_blank')" style="cursor:pointer"><div class="oc-badge">Marketing ↗</div><span class="oc-icon">📣</span><h3>Marketing Automation</h3><p>Marketing Cloud, Pardot and Account Engagement for B2B and B2C — building intelligent journeys, segmenting audiences and measuring ROI with an AI layer across every touchpoint.</p></div>
+      <div class="oc oc-l" onclick="window.open('https://www.redpill-linpro.com/en/solutions/managed-it','_blank')" style="cursor:pointer"><div class="oc-badge">Support ↗</div><span class="oc-icon">🛡️</span><h3>Managed Services &amp; Optimisation</h3><p>Ongoing support, proactive monitoring and continuous improvement of your Salesforce and MuleSoft platforms — with governance frameworks and quarterly health checks.</p></div>
+      <div class="oc oc-d" onclick="window.open('https://www.redpill-linpro.com/en/solutions/training','_blank')" style="cursor:pointer"><div class="oc-badge">Training ↗</div><span class="oc-icon">🎓</span><h3>Training &amp; Enablement</h3><p>Build internal capability — admin and developer training, Centre of Excellence setup, and our Blue Road Academy providing Salesforce education for career changers and migrants.</p></div>
+      <div class="oc oc-t" onclick="window.open('https://www.redpill-linpro.com/en/salesforce-health-cloud-healthcare-life-sciences-hcls','_blank')" style="background:linear-gradient(135deg,#0d4f4b 0%,var(--navy) 100%);cursor:pointer"><div class="oc-badge">Industry ↗</div><span class="oc-icon">🏥</span><h3>Health &amp; Life Sciences Cloud</h3><p>Specialised consulting for Health Cloud, Life Sciences Cloud and Data Cloud — clinical trial recruitment, patient enrollment and commercial excellence for MedTech and pharma.</p></div>
+      <div class="oc oc-g" onclick="window.open('https://www.redpill-linpro.com/en/solutions/mulesoft-anypoint-platform-service','_blank')" style="cursor:pointer"><div class="oc-badge">Migration ↗</div><span class="oc-icon">🔄</span><h3>Platform Migration Strategy</h3><p>Reassess your integration landscape and determine the right path forward — MuleSoft Anypoint, Azure Integration Services or a hybrid approach — with structured AI-accelerated migration.</p></div>
+    </div>
+  </div>
+
+  <!-- SFMC Toolkit -->
+  <div style="background:var(--sand)">
+    <div class="sw">
+      <div class="sec-hdr">
+        <span class="eyebrow">Marketing Automation</span>
+        <h2 class="sec-title">Our SFMC Toolkit — <span>constantly evolving</span></h2>
+        <p class="sec-desc">Proprietary tools and frameworks built by our SFMC team that we deploy across client projects — continuously refined with AI capabilities.</p>
+      </div>
+      <div class="toolkit-grid">
+        <div class="tk-card">
+          <div class="tk-icon">🧪</div>
+          <h3>End-to-End Testing Tool</h3>
+          <p>Automatically creates and runs test scenarios across the full customer journey, including inbox delivery checks — catching issues before they reach production.</p>
+        </div>
+        <div class="tk-card t-yell">
+          <div class="tk-icon">📊</div>
+          <h3>Journey Dashboard</h3>
+          <p>A visual overview of all journeys, their performance and flow health — with an AI layer that analyses the data and surfaces actionable recommendations for you.</p>
+        </div>
+        <div class="tk-card t-red">
+          <div class="tk-icon">💬</div>
+          <h3>Intelligent Query Studio</h3>
+          <p>Ask questions about your SFMC data in plain language and get results back instantly — increasing efficiency in analysis and development across the team.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core delivery domains -->
+  <div class="sw">
+    <div class="sec-hdr"><span class="eyebrow">How we work</span><h2 class="sec-title">Core delivery <span>domains</span></h2></div>
+    <div class="domain-grid">
+      <div class="dom"><div class="dom-icon">🏛️</div><h3>Architecture</h3><span class="dc dc-t"></span></div>
+      <div class="dom"><div class="dom-icon">💻</div><h3>Development</h3><span class="dc dc-r"></span></div>
+      <div class="dom"><div class="dom-icon">🔩</div><h3>Configuration</h3><span class="dc dc-y"></span></div>
+      <div class="dom"><div class="dom-icon">🎯</div><h3>Advisory</h3><span class="dc dc-n"></span></div>
+    </div>
+  </div>
+
+  <div class="why-band">
+    <div class="why-inner">
+      <h3>More than just technology — <em>we drive real change</em></h3>
+      <p>Technology &amp; Advisory, Business &amp; Process Mapping, Collaboration Throughout. We don't just implement AI — we help our customers with the strategy their agents need.</p>
+      <div class="why-grid">
+        <div class="wc"><div class="wn">ISO 27001</div><div class="wl">Information security certified</div></div>
+        <div class="wc"><div class="wn">ISO 9001</div><div class="wl">Quality management certified</div></div>
+        <div class="wc"><div class="wn">4.3 / 5</div><div class="wl">Employee satisfaction score</div></div>
+        <div class="wc"><div class="wn">MuleSoft #1</div><div class="wl">Leading regional Anypoint partner</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sw" style="text-align:center">
+    <a class="btn-teal" href="https://www.redpill-linpro.com/en/solutions/customer-experience" target="_blank">Learn more at redpill-linpro.com →</a>
+  </div>
+  <footer><div class="ft-inner">
+    <div class="ft-brand">Redpill Linpro<small>Building the Nordic digital society</small></div>
+    <div class="ft-links"><a onclick="show('home');return false">Home</a><a href="https://www.redpill-linpro.com" target="_blank">redpill-linpro.com</a></div>
+  </div></footer>
+</div>
+
+<!-- ═══════════════════════ CASES ═══════════════════════ -->
+<div id="sec-cases" class="section">
+  <div class="sec-hero">
+    <div class="sec-hero-inner">
+      <span class="eyebrow">Customer success</span>
+      <h1>Cases &amp; <em>results</em></h1>
+      <p>Leading Nordic organisations trust us to deliver measurable outcomes on Salesforce, MuleSoft and Agentforce. Here are some of our stories.</p>
+    </div>
+  </div>
+
+  <div class="sw">
+    <div class="sec-hdr"><span class="eyebrow">Featured cases</span><h2 class="sec-title">Transforming operations with <span>Redpill Linpro</span></h2></div>
+    <div class="cases-grid">
+      <div class="cc-card" onclick="window.open('https://www.redpill-linpro.com/en/news/redpill-linpro-develops-volkswagen-group-swedens-customer-journey-and-paves-way-ai-driven','_blank')" style="cursor:pointer">
+        <div class="cc-bar" style="background:var(--red)"></div>
+        <div class="cc-body">
+          <a href="https://www.redpill-linpro.com/en/news/redpill-linpro-develops-volkswagen-group-swedens-customer-journey-and-paves-way-ai-driven" target="_blank" class="cc-co" style="text-decoration:none;color:inherit">🚗 Volkswagen Group Sverige ↗</a>
+          <h3>Seamless Customer Journey &amp; AI-Driven Innovation</h3>
+          <p>Long-term partner for VGS's Salesforce CRM and MuleSoft integration platform — including Marketing Cloud — covering the full customer journey from first ad impression to post-purchase service. Working toward AI-driven personalisation at every touchpoint.</p>
+          <div class="cc-quote">"Redpill Linpro not only has deep technical knowledge of the platforms, they also understand our business and how technology can help us support it."<cite>— Tomas von Hedenberg, Volkswagen Group Sverige</cite></div>
+          <div class="tag-row"><span class="tag">Salesforce CRM</span><span class="tag">MuleSoft</span><span class="tag">Marketing Cloud</span><span class="tag">AI</span></div>
+        </div>
+      </div>
+      <div class="cc-card" onclick="window.open('https://www.redpill-linpro.com/en/cases/strawberry-strengthens-its-digital-customer-experience','_blank')" style="cursor:pointer">
+        <div class="cc-bar" style="background:var(--teal)"></div>
+        <div class="cc-body">
+          <a href="https://www.redpill-linpro.com/en/cases/strawberry-strengthens-its-digital-customer-experience" target="_blank" class="cc-co" style="text-decoration:none;color:inherit">🏨 Strawberry Hotels ↗</a>
+          <h3>Embracing Agentforce — An Agentic Hotel Chain</h3>
+          <p>Autonomous agents handle the routine so the experts can deliver spectacular results. Agent Script ensures seamless and deterministic creation of Framework Agreements, driving measurable impact from pilot to production on time.</p>
+          <div class="tag-row"><span class="tag">Agentforce</span><span class="tag">Autonomous Agents</span><span class="tag">Agent Script</span><span class="tag">Salesforce</span></div>
+        </div>
+      </div>
+      <div class="cc-card" onclick="window.open('https://www.redpill-linpro.com/en/references','_blank')" style="cursor:pointer">
+        <div class="cc-bar" style="background:var(--yellow)"></div>
+        <div class="cc-body">
+          <a href="https://www.redpill-linpro.com/en/references" target="_blank" class="cc-co" style="text-decoration:none;color:inherit">✈️ Copenhagen Airport ↗</a>
+          <h3>Digital Transformation at Scale</h3>
+          <p>Robust integration and API infrastructure enabling data flows across airport operations, passenger services and retail systems at one of Scandinavia's busiest airports — built on MuleSoft Anypoint with API-led architecture.</p>
+          <div class="tag-row"><span class="tag">API Integration</span><span class="tag">MuleSoft Anypoint</span><span class="tag">Operations</span></div>
+        </div>
+      </div>
+      <div class="cc-card" onclick="window.open('https://www.redpill-linpro.com/en/references','_blank')" style="cursor:pointer">
+        <div class="cc-bar" style="background:var(--navy)"></div>
+        <div class="cc-body">
+          <a href="https://www.redpill-linpro.com/en/references" target="_blank" class="cc-co" style="text-decoration:none;color:inherit">🏎 Scania Group ↗</a>
+          <h3>Connected Commercial Vehicle Ecosystem</h3>
+          <p>Connecting Salesforce with global enterprise systems to deliver a unified view of dealers, fleets and service data across markets — enabling Scania's digital transformation and Agentforce readiness at group level.</p>
+          <div class="tag-row"><span class="tag">Salesforce</span><span class="tag">Enterprise Integration</span><span class="tag">API-led</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a class="btn-navy" href="https://www.redpill-linpro.com/en/references" target="_blank">All customer references →</a>
+    </div>
+  </div>
+
+  <!-- Customer logo wall -->
+  <div class="logo-wall">
+    <div class="logo-wall-inner">
+      <h3>Trusted across the Nordics</h3>
+      <p>Some of the organisations we've helped transform their operations with Salesforce, MuleSoft and Agentforce.</p>
+      <div class="logo-grid">
+        <div class="logo-pill">Volkswagen Group</div>
+        <div class="logo-pill">Europcar</div>
+        <div class="logo-pill">Ørsted</div>
+        <div class="logo-pill">Db-Bil</div>
+        <div class="logo-pill">Coloplast</div>
+        <div class="logo-pill">Lindex</div>
+        <div class="logo-pill">ITAB</div>
+        <div class="logo-pill">TDC</div>
+        <div class="logo-pill">JYSK</div>
+        <div class="logo-pill">Skatteverket</div>
+        <div class="logo-pill">BELMONDO</div>
+        <div class="logo-pill">Scania</div>
+        <div class="logo-pill">Santander</div>
+        <div class="logo-pill">ColorLine</div>
+        <div class="logo-pill">PreZero</div>
+        <div class="logo-pill">Opencode</div>
+        <div class="logo-pill">Copenhagen Airport</div>
+        <div class="logo-pill">Strawberry Hotels</div>
+        <div class="logo-pill">Barneværnet</div>
+      </div>
+    </div>
+  </div>
+
+  <footer><div class="ft-inner">
+    <div class="ft-brand">Redpill Linpro<small>Building the Nordic digital society</small></div>
+    <div class="ft-links"><a onclick="show('home');return false">Home</a><a href="https://www.redpill-linpro.com/en/references" target="_blank">All references</a></div>
+  </div></footer>
+</div>
+
+<!-- ═══════════════════════ AI ═══════════════════════ -->
+<div id="sec-ai" class="section">
+
+  <div class="dark-band" style="padding-top:4.5rem;padding-bottom:4.5rem">
+    <div class="dark-band-inner">
+      <div>
+        <h2>Enter the <em>Agentic Era</em><br/>with Redpill Linpro</h2>
+        <p>We don't just implement AI — we help our customers with the strategy that their agents need. From pilot programme to production, driving outcomes at scale across MuleSoft, Salesforce and Agentforce.</p>
+        <a class="btn-primary" href="https://www.redpill-linpro.com/en/solutions/ai-services-and-solutions" target="_blank">Explore AI services →</a>
+      </div>
+      <div class="chips-2x2">
+        <div class="chip"><div class="n">Agentforce</div><div class="l">Autonomous AI agents for service, sales &amp; operations</div></div>
+        <div class="chip"><div class="n">Einstein AI</div><div class="l">Predictions, scoring &amp; personalisation at scale</div></div>
+        <div class="chip"><div class="n">Data Cloud</div><div class="l">Unified real-time customer data — AI-ready foundation</div></div>
+        <div class="chip"><div class="n">MuleSoft AI</div><div class="l">AI-driven integration, Agent Fabric &amp; BizTalk migration</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sw">
+    <div class="sec-hdr">
+      <span class="eyebrow">AI use cases we build &amp; deliver</span>
+      <h2 class="sec-title">AI in <span>action</span></h2>
+      <p class="sec-desc">Practical AI implementations on Salesforce, MuleSoft and Agentforce — from the Agentforce World Tour Stockholm 2026 and live client projects.</p>
+    </div>
+    <div class="ai-grid">
+      <div class="ai-card"><div class="ai-icon">🤖</div><div class="ai-body"><h3>Agentforce: Autonomous Service Agents</h3><p>AI agents that handle routine inquiries, case triage and resolutions — so your experts can focus on delivering spectacular customer experiences.</p><span class="ai-plat">Salesforce Agentforce</span></div></div>
+      <div class="ai-card"><div class="ai-icon">📋</div><div class="ai-body"><h3>Agent Script for Framework Agreements</h3><p>Ensures seamless and deterministic creation of Framework Agreements — eliminating manual errors and accelerating procurement workflows across the organisation.</p><span class="ai-plat">Agentforce · Salesforce</span></div></div>
+      <div class="ai-card"><div class="ai-icon">🔍</div><div class="ai-body"><h3>Autonomous CRM Incident Investigator</h3><p>Nova Pro v1 as an autonomous agent that debugs lead source anomalies by reasoning through a bounded tool set — knowing what to use and when to stop.</p><span class="ai-plat">AWS Nova · Salesforce</span></div></div>
+      <div class="ai-card"><div class="ai-icon">📧</div><div class="ai-body"><h3>AI for Email &amp; Templates</h3><p>AI helps produce email campaigns from start to finish — covering layout, copy and personalisation logic — dramatically reducing production time per campaign.</p><span class="ai-plat">Marketing Cloud + AI</span></div></div>
+      <div class="ai-card"><div class="ai-icon">👤</div><div class="ai-body"><h3>Customer Interest Agent</h3><p>Integrated with Data360, it tracks declared customer interests over time and recommends the next best action based on behaviour patterns — continuously learning.</p><span class="ai-plat">Agentforce · Data360</span></div></div>
+      <div class="ai-card"><div class="ai-icon">🩺</div><div class="ai-body"><h3>SFMC Health Check Agent</h3><p>Automatically checks automations, journeys and send logic for hidden issues before they become production incidents — proactive quality assurance at scale.</p><span class="ai-plat">SFMC · Agentforce</span></div></div>
+      <div class="ai-card"><div class="ai-icon">🎭</div><div class="ai-body"><h3>Claude as SFMC Agent via Playwright MCP</h3><p>LLMs controlling Salesforce Marketing Cloud through Playwright browser automation — automate repetitive UI tasks across SFMC with zero coding required.</p><span class="ai-plat">Claude · Playwright MCP</span></div></div>
+      <div class="ai-card"><div class="ai-icon">🎯</div><div class="ai-body"><h3>Next Best Action Engine</h3><p>AI-powered NBA engine integrated with SFMC via DigitalOcean Droplets and SFTP — personalising every customer interaction automatically at the moment of engagement.</p><span class="ai-plat">SFMC · DigitalOcean</span></div></div>
+      <div class="ai-card"><div class="ai-icon">🔄</div><div class="ai-body"><h3>AI-Driven BizTalk Migration</h3><p>Structured, AI-accelerated migration from BizTalk to MuleSoft Anypoint with flexible hosting options — setting your organisation up for modern API-led architecture.</p><span class="ai-plat">MuleSoft · AI</span></div></div>
+    </div>
+  </div>
+
+  <!-- Marketing AI toolkit -->
+  <div style="background:var(--sand)">
+    <div class="sw">
+      <div class="sec-hdr">
+        <span class="eyebrow">SFMC Toolkit</span>
+        <h2 class="sec-title">Marketing automation — <span>constantly evolving</span></h2>
+        <p class="sec-desc">Proprietary AI-powered tools our team has built and deploys in live client projects.</p>
+      </div>
+      <div class="toolkit-grid">
+        <div class="tk-card"><div class="tk-icon">🧪</div><h3>End-to-End Testing Tool</h3><p>Automatically creates and runs test scenarios across the full customer journey, including inbox delivery checks — catching issues before they reach production.</p></div>
+        <div class="tk-card t-yell"><div class="tk-icon">📊</div><h3>Journey Dashboard with AI Layer</h3><p>Visual overview of all journeys, their performance and flow health — with an AI layer that analyses the data and surfaces recommendations for your team.</p></div>
+        <div class="tk-card t-red"><div class="tk-icon">💬</div><h3>Intelligent Query Studio</h3><p>Ask questions about your SFMC data in plain language and get results back instantly — dramatically increasing efficiency in analysis and development work.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sw" style="text-align:center">
+    <a class="btn-teal" href="https://www.redpill-linpro.com/en/solutions/ai-services-and-solutions" target="_blank">Explore all AI services at Redpill Linpro →</a>
+  </div>
+  <footer><div class="ft-inner">
+    <div class="ft-brand">Redpill Linpro<small>Building the Nordic digital society</small></div>
+    <div class="ft-links"><a onclick="show('home');return false">Home</a><a href="https://www.redpill-linpro.com" target="_blank">redpill-linpro.com</a></div>
+  </div></footer>
+</div>
+
+<!-- ═══════════════════════ CONTACT FORM (all pages) ═══════════════════════ -->
+<div id="sec-contact" class="contact-band" style="display:none">
+  <div class="contact-inner">
+    <div class="contact-copy">
+      <span class="eyebrow" style="color:rgba(255,255,255,.5)">Let's talk</span>
+      <h2>Ready to explore what <em>Agentforce & MuleSoft</em> can do for your business?</h2>
+      <p>Drop us a note and Erik will get back to you — no sales pitch, just an honest conversation about where Salesforce, MuleSoft or AI agents can make a real difference.</p>
+      <div class="contact-person">
+        <div class="contact-avatar">👤</div>
+        <div class="contact-person-info">
+          <div class="name">Erik Ivarsson</div>
+          <div class="role">Region Manager CX &amp; Salesforce Technical Architect</div>
+          <a class="mail" href="mailto:erik.ivarsson@redpill-linpro.com">erik.ivarsson@redpill-linpro.com</a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="cf-form" id="cf-wrap">
+        <h3>Send us a message</h3>
+        <div class="cf-row">
+          <div class="cf-field">
+            <label>Your name *</label>
+            <input type="text" id="cf-name" placeholder="Anna Lindqvist" required/>
+          </div>
+          <div class="cf-field">
+            <label>Company *</label>
+            <input type="text" id="cf-company" placeholder="Acme AB" required/>
+          </div>
+        </div>
+        <div class="cf-field">
+          <label>Your email *</label>
+          <input type="email" id="cf-email" placeholder="you@company.com" required/>
+        </div>
+        <div class="cf-field">
+          <label>I'm interested in</label>
+          <select id="cf-interest">
+            <option value="">Select a topic…</option>
+            <option>Salesforce Implementation</option>
+            <option>MuleSoft / API Integration</option>
+            <option>Agentforce &amp; AI Agents</option>
+            <option>Marketing Cloud / SFMC</option>
+            <option>Health / Life Sciences Cloud</option>
+            <option>DevOps for Salesforce</option>
+            <option>Managed Services</option>
+            <option>General enquiry</option>
+          </select>
+        </div>
+        <div class="cf-field">
+          <label>Message</label>
+          <textarea id="cf-message" placeholder="Tell us a bit about your challenge or project…"></textarea>
+        </div>
+        <button class="cf-submit" onclick="submitCF(event)">
+          <span>Send message</span> <span>→</span>
+        </button>
+      </div>
+      <div class="cf-success" id="cf-success">
+        <div class="tick">✅</div>
+        <h4>Message sent!</h4>
+        <p>Your email client should have opened with the message pre-filled.<br/>Erik will get back to you shortly.</p>
+        <button class="cf-submit" style="margin-top:1.25rem;max-width:200px;margin-left:auto;margin-right:auto" onclick="resetCF()">Send another →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Floating CTA button (always visible) -->
+<button class="float-cta" onclick="toggleContact()" id="float-btn" aria-label="Contact us">
+  <span>✉️</span><span id="float-label">Let's talk</span>
+</button>
+
+<!-- ══ BOTTOM TABS (mobile) ══ -->
+<nav class="tab-bar">
+  <button class="tab-item active" id="tab-home"      onclick="show('home')"      aria-label="Home"><span class="tab-icon">🏠</span><span class="tab-label">Home</span></button>
+  <button class="tab-item"        id="tab-blogs"     onclick="show('blogs')"     aria-label="Blog"><span class="tab-icon">📝</span><span class="tab-label">Blog</span></button>
+  <button class="tab-item"        id="tab-offerings" onclick="show('offerings')" aria-label="Offerings"><span class="tab-icon">🔧</span><span class="tab-label">Offerings</span></button>
+  <button class="tab-item"        id="tab-cases"     onclick="show('cases')"     aria-label="Cases"><span class="tab-icon">🏆</span><span class="tab-label">Cases</span></button>
+  <button class="tab-item"        id="tab-ai"        onclick="show('ai')"        aria-label="AI"><span class="tab-icon">🤖</span><span class="tab-label">AI</span></button>
+</nav>
+
+<script>
+function show(n){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-item,[id^="nav-"]').forEach(e=>e.classList.remove('active'));
+  document.getElementById('sec-'+n).classList.add('active');
+  var t=document.getElementById('tab-'+n); if(t) t.classList.add('active');
+  var v=document.getElementById('nav-'+n); if(v) v.classList.add('active');
+  // hide contact form when switching tabs
+  document.getElementById('sec-contact').style.display='none';
+  document.getElementById('float-label').textContent='Let\'s talk';
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function toggleContact(){
+  var el=document.getElementById('sec-contact');
+  var lbl=document.getElementById('float-label');
+  if(el.style.display==='none'||el.style.display===''){
+    el.style.display='block';
+    lbl.textContent='Close ✕';
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+  } else {
+    el.style.display='none';
+    lbl.textContent='Let\'s talk';
+  }
+}
+function submitCF(e){
+  e.preventDefault();
+  var name=document.getElementById('cf-name').value.trim();
+  var company=document.getElementById('cf-company').value.trim();
+  var email=document.getElementById('cf-email').value.trim();
+  var interest=document.getElementById('cf-interest').value;
+  var message=document.getElementById('cf-message').value.trim();
+  if(!name||!company||!email){alert('Please fill in your name, company and email.');return;}
+  var subject=encodeURIComponent('[Redpill Linpro CX] Interest from '+name+' – '+company);
+  var body=encodeURIComponent(
+    'Hi Erik,\n\n'+name+' from '+company+' is interested in: '+(interest||'General enquiry')+'.\n\n'+
+    'Their email: '+email+'\n\n'+
+    (message?'Message:\n'+message+'\n\n':'')+
+    'Sent via the Salesforce & MuleSoft showcase page.'
+  );
+  window.location.href='mailto:erik.ivarsson@redpill-linpro.com?subject='+subject+'&body='+body;
+  document.getElementById('cf-wrap').style.display='none';
+  document.getElementById('cf-success').style.display='block';
+}
+function resetCF(){
+  document.getElementById('cf-name').value='';
+  document.getElementById('cf-company').value='';
+  document.getElementById('cf-email').value='';
+  document.getElementById('cf-interest').value='';
+  document.getElementById('cf-message').value='';
+  document.getElementById('cf-wrap').style.display='block';
+  document.getElementById('cf-success').style.display='none';
+}
+function playVid(thumb,id,start){
+  var url='https://www.youtube.com/watch?v='+id+(start?'&t='+start+'s':'');
+  window.open(url,'_blank');
+}
+</script>
+</body>
+</html>
