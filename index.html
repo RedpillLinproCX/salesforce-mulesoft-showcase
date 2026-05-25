@@ -335,6 +335,8 @@ footer{background:var(--navy);padding:2.5rem 2rem}
   .cf-row{grid-template-columns:1fr}
 }
 
+/* ── Deliver-across 3-col grid (collapses to 1 on mobile) ── */
+.deliver-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
 /* ────────── ANIM ────────── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .section.active>*{animation:fadeUp .3s ease both}
@@ -354,7 +356,9 @@ footer{background:var(--navy);padding:2.5rem 2rem}
 @media(max-width:768px){
   :root{--nav-h:52px}
   .top-links,.logo-sub{display:none}
-  .top-bar{padding:0 1rem;justify-content:space-between}
+  .top-bar{padding:0 1rem;gap:0;justify-content:space-between}
+  .logo-img{height:26px}
+  .top-cta{font-size:.78rem;padding:.42rem .9rem}
   .tab-bar{display:flex}
   .page-wrap{padding-bottom:calc(var(--tab-h) + var(--safe-b))}
   .hero{padding:2.25rem 1.25rem 2.5rem}
@@ -366,6 +370,7 @@ footer{background:var(--navy);padding:2.5rem 2rem}
   .sw,.sec-hero,.dark-band,.logo-wall,.why-band,.red-band{padding-left:1.25rem;padding-right:1.25rem}
   .sw{padding-top:2.25rem;padding-bottom:2.25rem}
   .dark-band-inner{grid-template-columns:1fr;gap:1.75rem}
+  .deliver-grid{grid-template-columns:1fr}
   .blog-grid{grid-template-columns:1fr}
   .yt-grid{grid-template-columns:1fr}
   .off-grid{grid-template-columns:1fr}
@@ -461,7 +466,7 @@ footer{background:var(--navy);padding:2.5rem 2rem}
         <h2 class="sec-title">Salesforce · MuleSoft · <span>Agentforce</span></h2>
         <p class="sec-desc">A full-service Nordic consultancy covering the complete Salesforce ecosystem — from CRM and integration to AI agents and marketing automation.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem">
+      <div class="deliver-grid">
         <div class="tk-card" onclick="show('offerings')" style="cursor:pointer;border-top-color:var(--red)">
           <div class="tk-icon">☁️</div>
           <h3>Salesforce</h3>
